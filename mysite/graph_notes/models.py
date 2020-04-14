@@ -17,10 +17,9 @@ class Note(models.Model):
         return self.published_time >= timezone.now() - datetime.timedelta(days=1)
 
 
-class Topic(models.Model):
+class Tag(models.Model):
     name = models.CharField(max_length=100)
     note = models.ManyToManyField(Note)
 
     def __str__(self):
         return self.name
-
