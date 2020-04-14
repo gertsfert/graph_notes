@@ -48,13 +48,22 @@ def save(request):
     # check for tags (enclosed in square brackets [])
     enclosed_tags = find_tags(note_content)
 
-    all_tags = set([t.name for t in Tag.objects.all()])
+    all_tags = [t for t in Tag.objects.all() if t.name in enclosed_tags]
+
+    all_tag_names = [t.name for t in all_tags]
+
     # check for new tags
-    new_tags = [t for t in enclosed_tags if t not in all_tags]
+    new_tags = [t for t in enclosed_tags if t not in all_tag_names]
 
     # creating new tags
-    for new_tag in new_tags:
-        Tag(name=new_tag, note=new_note.pk()).save()
+    for name in new_tags:
+        new_tag = Tag(name=name)
+        new_tag.save()
+        all_tags.append(new_tag)
+
+    # adding tags to all notes
+    for tag in all_tags:
+        new_note.tags.add(tag)
 
     print(f"all tags")
     for t in all_tags:

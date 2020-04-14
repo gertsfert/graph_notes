@@ -24,8 +24,17 @@
                         <h5 class="mb-1">{{ note.title }}</h5>
                         <small>{{ note.published_time }}</small>
                     </div>
-                    <p class="mb-1"> {{ note.content }}
+                    <p class="mb-1"> 
+                        {{ note.content }}
                     </p>
+                    {% if note.tags %}
+                    <br>
+                    <ul class='list-group list-group-horizontal'>
+                        {% for tag in note.tags.all %}
+                            <small><li class="list-group-item">{{tag.name}}</li></small>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </a>
             {% endfor %}
             </div>
