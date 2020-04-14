@@ -2,7 +2,9 @@ from django.shortcuts import render, get_object_or_404
 
 from django.utils import timezone
 
-from .models import Note
+from .models import Note, Tag
+
+from .src.find_tags import find_tags
 
 
 def index(request):
@@ -40,6 +42,21 @@ def save(request):
         published_time=published_time,
         modified_time=published_time,
     )
+
+    # check for tags (enclosed in square brackets [])
+    enclosed_tags = find_tags(note_content)
+
+    all_tags = [t.name for t in Tag.objects.all()]
+    # check for new tags
+    new_tags = [t for t in enclosed_tags if t not in all_tags]
+
+    print(f"all tags")
+    for t in all_tags:
+        print(t)
+
+    print("new tags")
+    for t in new_tags:
+        print(t)
 
     new_note.save()
 
