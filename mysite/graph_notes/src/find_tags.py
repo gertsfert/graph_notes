@@ -1,8 +1,8 @@
 from re import findall
-from typing import List
+from typing import Set
 
 
-def find_tags(content: str) -> List[str]:
+def find_tags(content: str) -> Set[str]:
     pattern = r"(?<=\[).+?(?=\])"  # matches strings enclosed in square brackets
 
-    return findall(pattern, content)
+    return set(findall(pattern, content))
