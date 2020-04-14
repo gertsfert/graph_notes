@@ -19,7 +19,7 @@ class Note(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
-    note = models.ManyToManyField(Note)
+    notes = models.ManyToManyField(Note)
 
     def __str__(self):
         return self.name
